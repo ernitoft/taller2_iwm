@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\UsuarioController;
 use App\Http\Controllers\UsuarioControllerOut;
-/*
+/*¿
 |--------------------------------------------------------------------------
 | API Routes
 |--------------------------------------------------------------------------
@@ -17,7 +17,6 @@ use App\Http\Controllers\UsuarioControllerOut;
 
 
 
-Route::post('register',[UsuarioController::class,'register']);
 Route::post('login',[UsuarioController::class,'login']);
 Route::post('logout',[UsuarioController::class,'logout']);
 
@@ -25,5 +24,7 @@ Route::post('logout',[UsuarioController::class,'logout']);
 Route::middleware('jwt.verify')->group(function(){
     Route::get('usuarios',[UsuarioControllerOut::class,'index']);
     Route::post('register',[UsuarioControllerOut::class,'store']);
+    Route::put('usuarios/{id}',[UsuarioControllerOut::class,'update']);
+    Route::delete('usuarios/{id}',[UsuarioControllerOut::class,'destroy']);
 
 });
