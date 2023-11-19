@@ -19,10 +19,10 @@ use App\Http\Controllers\UsuarioControllerOut;
 
 Route::post('login',[UsuarioController::class,'login']);
 Route::post('logout',[UsuarioController::class,'logout']);
+Route::get('usuarios',[UsuarioControllerOut::class,'index']);
 
 //Rutas protegidas
 Route::middleware('jwt.verify')->group(function(){
-    Route::get('usuarios',[UsuarioControllerOut::class,'index']);
     Route::post('register',[UsuarioControllerOut::class,'store']);
     Route::put('usuarios/{id}',[UsuarioControllerOut::class,'update']);
     Route::delete('usuarios/{id}',[UsuarioControllerOut::class,'destroy']);

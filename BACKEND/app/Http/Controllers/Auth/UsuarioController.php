@@ -13,9 +13,6 @@ use Illuminate\Support\Facades\Auth;
 
 class UsuarioController extends Controller
 {
-    public function register(Request $request){
-        
-    }
 
     public function login(LoginRequest $request){
         $credenciales = $request->only('email','password');

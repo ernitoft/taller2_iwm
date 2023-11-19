@@ -1,0 +1,35 @@
+<link
+            href="https://fonts.googleapis.com/css2?family=Mulish&display=swap"
+            rel="stylesheet"
+            type='text/css'
+        >
+<body>
+    <div class="container">
+        <div style="display: flex; text-align: center; justify-content: center; align-items: center">
+            <button class="button-61 mt-4" role="button" (click)="obtenerTodos()">Visualizar</button>
+        </div>
+        <div class="row mt-4">
+            <table class="table mt-4">
+                <thead>
+                  <tr>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Apellido</th>
+                    <th scope="col">Rut</th>
+                    <th scope="col">Correo</th>
+                    <th scope="col">Puntos</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of usuarios[0]">
+                    <td>{{item.name}}</td>
+                    <td>{{item.lastname}}</td>
+                    <td>{{item.rut}}</td>
+                    <td>{{item.email}}</td>
+                    <td>{{item.score}}</td>
+                  </tr>
+                </tbody>
+              </table>
+        </div>
+    </div>
+</body>
+<router-outlet></router-outlet>
