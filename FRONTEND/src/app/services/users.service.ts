@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,10 +12,18 @@ export class UsersService {
   }
 
   login(formValue: any) {
-    return this.httpClient.post<any>(this.baseURL+'/login', formValue);
+    return firstValueFrom(this.httpClient.post<any>(this.baseURL+'/login', formValue));
   }
   getUsuarios() {
-    return this.httpClient.get<any[]>(this.baseURL+'/usuarios');
+    return this.httpClient.get<any[]>(this.baseURL+'/usuarios',this.crearHeader());
+  }
+
+  crearHeader() {
+    return {
+      headers: new HttpHeaders({
+        'Autorization': localStorage.getItem('token')!
+      })
+    }
   }
   
 }

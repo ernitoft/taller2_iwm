@@ -7,13 +7,14 @@ use Illuminate\Http\Request;
 
 class UsuarioControllerOut extends Controller
 {
-    const token = "";
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $usuarios = User::where('role',2)->get();
+        
+        $usuarios = User::where('role',2)->orderBy('created_at')->get();
+        
         return response()->json([
             'usuarios'=>$usuarios],200);
     }
@@ -28,20 +29,19 @@ class UsuarioControllerOut extends Controller
                 'name'=>'required|string',
                 'lastname'=>'required|string',
                 'email'=>'required|email|unique:users',
-                'password'=>'required|string',
                 'rut'=>'required|string|unique:users',
                 'score'=>'required|integer',
-                'role'=>'required|integer',
             ]);
 
             $usuario = User::create([
                 'name'=>$request->name,
                 'lastname'=>$request->lastname,
+                'username'=>null,
                 'email'=>$request->email,
-                'password'=>$request->password,
+                'password'=>null,
                 'rut'=>$request->rut,
                 'score'=>$request->score,
-                'role'=>$request->role,
+                'role'=>2,
             ]);
 
             return response()->json([

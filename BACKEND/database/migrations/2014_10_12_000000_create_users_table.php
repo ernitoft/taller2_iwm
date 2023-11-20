@@ -15,12 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('lastname');
+            $table->string('username')->nullable();
             $table->string('email')->unique();
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->string('rut')->unique();
-            $table->integer('score');
+            $table->integer('score')->nullable();
             $table->integer('role');
-
             $table->timestamps();
         });
     }

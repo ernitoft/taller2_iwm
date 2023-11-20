@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { UsersService } from 'src/app/services/users.service';
 import { FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-login',
@@ -11,16 +13,24 @@ import { FormControl, Validators } from '@angular/forms';
 export class LoginComponent {
   
   formulario: FormGroup;
-
-  constructor(private usersService: UsersService) {
+  usersService = inject(UsersService);
+  router = inject(Router);
+  message: string = 'Credenciales incorrectas';
+  constructor() {
     this.formulario = new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required])
+      username: new FormControl(),
+      password: new FormControl()
     });
   }
 
   async onSubmit() {
     const response = await this.usersService.login(this.formulario.value);
-    console.log(response);
+    if(!response.error){
+      localStorage.setItem('token', response.token);
+      this.router.navigate(['/visualizar']);
+      }
+    if (response.error) {
+      window.alert(this.message);
+    }
   }
 }

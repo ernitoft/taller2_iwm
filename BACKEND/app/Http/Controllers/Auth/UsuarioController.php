@@ -15,10 +15,11 @@ class UsuarioController extends Controller
 {
 
     public function login(LoginRequest $request){
-        $credenciales = $request->only('email','password');
-        $rol = User::where('email',$request->email)->first()->role;
-        $rut = User::where('email',$request->email)->first()->rut;
+        $credenciales = $request->only('username','password');
+        $rol = User::where('username',$request->username)->first()->role;
+        $rut = User::where('username',$request->username)->first()->rut;
         try{
+            
             if(!$token = JWTAuth::attempt($credenciales)){
                 return response()->json([
                     'message'=>'Credenciales inválidas'
@@ -40,8 +41,6 @@ class UsuarioController extends Controller
             'rut'=>$rut,
          ],200);
     }
-        
-
     public function logout(Request $request)
     {
         try{
