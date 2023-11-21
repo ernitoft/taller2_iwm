@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { UsersService } from 'src/app/services/users.service';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 
 
@@ -26,7 +26,7 @@ export class LoginComponent {
   async onSubmit() {
     const response = await this.usersService.login(this.formulario.value);
     if(!response.error){
-      localStorage.setItem('token', response.token);
+      localStorage.setItem('token_auth', response.token);
       this.router.navigate(['/visualizar']);
       }
     if (response.error) {

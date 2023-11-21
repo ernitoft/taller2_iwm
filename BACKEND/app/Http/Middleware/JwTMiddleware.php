@@ -16,17 +16,19 @@ class JwTMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        try{
+        try {
             JWTAuth::parseToken()->authenticate();
-        }catch(\Exception $e){
-            if($e instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException){
-                return response()->json(['message'=>'Token inválido'],401);
-                }else if($e instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException){
-                    return response()->json(['message'=>'Token expirado'],401);
-                }else{
-                    return response()->json(['message'=>'Token de autorización no encontrado'],401);
-                }
+        } catch (\Exception $e) {
+            if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException) {
+                return response()->json(['message' => 'Token inválido'], 401);
+            } else if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException) {
+                return response()->json(['message' => 'Token expirado'], 401);
+            } else {
+                return response()->json(['message' => 'Token de autorización no encontrado'], 401);
+            }
         }
+
         return $next($request);
     }
 }
+

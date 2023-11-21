@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, firstValueFrom } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,14 +14,28 @@ export class UsersService {
   login(formValue: any) {
     return firstValueFrom(this.httpClient.post<any>(this.baseURL+'/login', formValue));
   }
+  logout() {
+    return firstValueFrom(this.httpClient.post<any>(this.baseURL+'/logout', this.crearHeader()));
+  }
   getUsuarios() {
-    return this.httpClient.get<any[]>(this.baseURL+'/usuarios',this.crearHeader());
+    return firstValueFrom(this.httpClient.get<any[]>(this.baseURL+'/usuarios', this.crearHeader()));
+  }
+  
+  registrar(formValue: any) {
+    return firstValueFrom(this.httpClient.post<any>(this.baseURL+'/register', formValue));
+  }
+
+  buscarUsuario(id: number) {
+    return firstValueFrom(this.httpClient.get<any>(this.baseURL+'/usuarios/'+id, this.crearHeader()));
+  }
+  borrarUsuario(id: number) {
+    return firstValueFrom(this.httpClient.delete<any>(this.baseURL+'/usuarios/'+id, this.crearHeader()));
   }
 
   crearHeader() {
     return {
       headers: new HttpHeaders({
-        'Autorization': localStorage.getItem('token')!
+        'Authorization': 'Bearer'+localStorage.getItem('token_auth')!
       })
     }
   }

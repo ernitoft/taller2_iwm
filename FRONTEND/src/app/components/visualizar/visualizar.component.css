@@ -1,5 +1,8 @@
 
-/* CSS */
+html{
+    background-color: #F3EFF5;
+}
+
 .button-61 {
   align-items: center;
   appearance: none;
@@ -46,7 +49,7 @@
 }
 
 .button-61:not(:disabled) {
-  background-color: #6200ee;
+  background-color: #3F7D20;
 }
 
 .button-61:focus {
@@ -55,5 +58,5 @@
 
 .button-61:active {
   box-shadow: rgba(0, 0, 0, .2) 0 5px 5px -3px, rgba(0, 0, 0, .14) 0 8px 10px 1px, rgba(0, 0, 0, .12) 0 3px 14px 2px;
-  background: #A46BF5;
+  background: #72B01D;
 }

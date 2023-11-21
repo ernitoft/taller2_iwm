@@ -8,13 +8,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { VisualizarComponent } from './components/visualizar/visualizar.component';
 import { UsersService } from './services/users.service';
+import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     NavbarComponent,
-    VisualizarComponent
+    VisualizarComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

@@ -1,27 +1,23 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 import { UsersService } from 'src/app/services/users.service';
+
 @Component({
   selector: 'app-visualizar',
   templateUrl: './visualizar.component.html',
   styleUrls: ['./visualizar.component.css']
 })
-export class VisualizarComponent implements OnInit{
-  datos: any[]=[];
-  
-  constructor(private usersService: UsersService) {
-
-  }
+export class VisualizarComponent implements OnInit {
+  datos: any[] = [];
   usuarios: any = [];
 
-ngOnInit() {
-}
-obtenerTodos():void{
-  this.usersService.getUsuarios().subscribe((data)=>{
-    this.usuarios=Object.values(data);
-    console.log(this.usuarios);
-  });
-}
+  constructor(private usersService: UsersService) {}
 
-  
+  ngOnInit() {}
+
+  obtenerTodos(): void {
+    this.usersService.getUsuarios().then((data: any[]) => {
+      this.usuarios = Object.values(data);
+      console.log(this.usuarios);
+    });
+  }
 }

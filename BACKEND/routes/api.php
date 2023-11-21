@@ -22,8 +22,9 @@ Route::post('logout',[UsuarioController::class,'logout']);
 
 //Rutas protegidas, OUT
 Route::middleware('jwt.verify')->group(function(){
-    Route::get('usuarios',[UsuarioControllerOut::class,'index']);
     Route::post('register',[UsuarioControllerOut::class,'store']);
+    Route::get('usuarios',[UsuarioControllerOut::class,'index']);
+    Route::get('usuarios/{id}',[UsuarioControllerOut::class,'show']);
     Route::put('usuarios/{id}',[UsuarioControllerOut::class,'update']);
     Route::delete('usuarios/{id}',[UsuarioControllerOut::class,'destroy']);
 });
