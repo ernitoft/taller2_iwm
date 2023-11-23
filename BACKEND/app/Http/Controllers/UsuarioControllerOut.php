@@ -13,7 +13,7 @@ class UsuarioControllerOut extends Controller
     public function index()
     {
         
-        $usuarios = User::where('role',2)->orderBy('created_at')->get();
+        $usuarios = User::where('role','!=',1)->orderBy('id')->get();
         
         return response()->json([
             'usuarios'=>$usuarios],200);
@@ -57,10 +57,10 @@ class UsuarioControllerOut extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Usuario $usuario)
+    public function show(User $usuario)
     {
         try{
-            $usuario = Usuario::find($usuario->id);
+            $usuario = User::find($usuario->id);
             return response()->json($usuario,200);
         }catch(\Exception $e){
             throw new \Exception($e->getMessage());
@@ -70,33 +70,57 @@ class UsuarioControllerOut extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Usuario $usuario)
-    {
-        try{
-            $usuario = Usuario::find($usuario->id);
-            $fields  = $request->validate([
-                'name'=>'required|string',
-                'lastname'=>'required|string',
-                'email'=>'required|email|unique:users',
-                'password'=>'required|string',
-                'rut'=>'required|string|unique:users',
-                'score'=>'required|integer',
-                'role'=>'required|integer',
-            ]);
-            $usuario->update($fields);
-            return response()->json($usuario,200);
-        }catch(\Exception $e){
-            throw new \Exception($e->getMessage());
+    public function update(Request $request)
+    {   
+        $usuario = User::find($request->id);
+        try {
+            if($usuario->email == $request->email){
+                $field = $this->validate($request,[
+                    'name'=>'required|string',
+                    'lastname'=>'required|string',
+                    'email'=>'required|email',
+                    'score'=>'required|integer',
+                ]);
+
+                $usuario = User::where('id',$usuario->id)->update([
+                    'name'=>$request->name,
+                    'lastname'=>$request->lastname,
+                    'email'=>$request->email,
+                    'score'=>$request->score,
+                ]); 
+            }
+            else{
+                $field = $this->validate($request,[
+                    'name'=>'required|string',
+                    'lastname'=>'required|string',
+                    'email'=>'required|email|unique:users',
+                    'score'=>'required|integer',
+                ]);
+                $usuario = User::where('id',$usuario->id)->update([
+                    'name'=>$request->name,
+                    'lastname'=>$request->lastname,
+                    'email'=>$request->email,
+                    'score'=>$request->score,
+                ]);
+            }
+            return response()->json($usuario, 200);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['error' => $e->validator->errors()], 422);
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
+
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Usuario $usuario)
+    public function delete(Request $request,$id)
     {
         try{
-            $usuario = Usuario::find($usuario->id);
+            $usuario = User::findOrFail($id);
             $usuario->delete();
             return response()->json([
                 'message'=>'Usuario eliminado con éxito'

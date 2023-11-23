@@ -25,6 +25,6 @@ Route::middleware('jwt.verify')->group(function(){
     Route::post('register',[UsuarioControllerOut::class,'store']);
     Route::get('usuarios',[UsuarioControllerOut::class,'index']);
     Route::get('usuarios/{id}',[UsuarioControllerOut::class,'show']);
-    Route::put('usuarios/{id}',[UsuarioControllerOut::class,'update']);
-    Route::delete('usuarios/{id}',[UsuarioControllerOut::class,'destroy']);
+    Route::patch('update/{id}',[UsuarioControllerOut::class,'update']);
+    Route::delete('usuarios/{id}',[UsuarioControllerOut::class,'delete']);
 });

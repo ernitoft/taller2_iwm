@@ -29,7 +29,12 @@ export class UsersService {
     return firstValueFrom(this.httpClient.get<any>(this.baseURL+'/usuarios/'+id, this.crearHeader()));
   }
   borrarUsuario(id: number) {
-    return firstValueFrom(this.httpClient.delete<any>(this.baseURL+'/usuarios/'+id, this.crearHeader()));
+    return this.httpClient.delete<any>(this.baseURL+'/usuarios/'+id, this.crearHeader());
+  }
+
+  updateUsuario(formValue: any) {
+    console.log(formValue);
+    return firstValueFrom(this.httpClient.patch<any>(this.baseURL+'/update/'+formValue.id, formValue, this.crearHeader()));
   }
 
   crearHeader() {
