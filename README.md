@@ -45,7 +45,7 @@ Laravel 10 (https://laravel.com)
 
       php artisan migrate --seed
 
-- Excepción: Para implementar la traducción de mensajes de error por parte de laravel, accede al directorio vendor de Laravel, encuentra el archivo autoload.php, y agrega la siguiente línea debajo de la línea 23 (En caso de no ser implementado, se causará un error de la función makeMessages):
+- Excepción: Para implementar la traducción de mensajes de error por parte de laravel, accede al directorio vendor de Laravel, encuentra el archivo autoload.php ubicado al final de la carpeta, y agrega la siguiente línea debajo de la línea 23 (En caso de no ser implementado, se causará un error de la función makeMessages):
 
       require_once __DIR__ . '../../app/Helper/myHelper.php';
 
