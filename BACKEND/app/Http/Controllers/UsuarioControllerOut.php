@@ -21,17 +21,18 @@ class UsuarioControllerOut extends Controller
 
     /**
      * Store a newly created resource in storage.
+     * @param  \Illuminate\Http\Request request es la petición que se hace desde el front
      */
     public function store(Request $request)
     {
-        try{
+        $messages = makeMessages();
             $this->validate($request,[
                 'name'=>'required|string',
                 'lastname'=>'required|string',
-                'email'=>'required|email|unique:users',
+                'email'=>'required|regex:/^[^@]+@[^@.]+\.[^@]+$/|unique:users',
                 'rut'=>'required|string|unique:users',
                 'score'=>'required|integer',
-            ]);
+            ], $messages);
 
             $usuario = User::create([
                 'name'=>$request->name,
@@ -49,18 +50,16 @@ class UsuarioControllerOut extends Controller
                 'usuario'=>$usuario,
             ],201);
 
-        }catch(\Exception $e){
-            throw new \Exception($e->getMessage());
-        }
     }
 
     /**
      * Display the specified resource.
+     * @param  int  $id es el id del usuario
      */
-    public function show(User $usuario)
+    public function show($id)
     {
         try{
-            $usuario = User::find($usuario->id);
+            $usuario = User::find($id);
             return response()->json($usuario,200);
         }catch(\Exception $e){
             throw new \Exception($e->getMessage());
@@ -69,18 +68,26 @@ class UsuarioControllerOut extends Controller
     }
     /**
      * Update the specified resource in storage.
+     * @param  \Illuminate\Http\Request request es la petición que se hace desde el front
      */
     public function update(Request $request)
     {   
+        $messages = makeMessages();
+        $this->validate($request,[
+            'name'=>'required|string',
+            'lastname'=>'required|string',
+            'email'=>'required|regex:/^[^@]+@[^@.]+\.[^@]+$/',
+            'score'=>'required|integer',
+        ], $messages);
+        
         $usuario = User::find($request->id);
-        try {
             if($usuario->email == $request->email){
                 $field = $this->validate($request,[
                     'name'=>'required|string',
                     'lastname'=>'required|string',
-                    'email'=>'required|email',
+                    'email'=>'required|regex:/^[^@]+@[^@.]+\.[^@]+$/',
                     'score'=>'required|integer',
-                ]);
+                ],$messages);
 
                 $usuario = User::where('id',$usuario->id)->update([
                     'name'=>$request->name,
@@ -93,9 +100,9 @@ class UsuarioControllerOut extends Controller
                 $field = $this->validate($request,[
                     'name'=>'required|string',
                     'lastname'=>'required|string',
-                    'email'=>'required|email|unique:users',
+                    'email'=>'required|regex:/^[^@]+@[^@.]+\.[^@]+$/|unique:users',
                     'score'=>'required|integer',
-                ]);
+                ],$messages);
                 $usuario = User::where('id',$usuario->id)->update([
                     'name'=>$request->name,
                     'lastname'=>$request->lastname,
@@ -104,29 +111,24 @@ class UsuarioControllerOut extends Controller
                 ]);
             }
             return response()->json($usuario, 200);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return response()->json(['error' => $e->validator->errors()], 422);
-
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
     }
-
-
 
     /**
      * Remove the specified resource from storage.
+     * @param  int  $id es el id del usuario
      */
-    public function delete(Request $request,$id)
+    public function destroy($id)
     {
         try{
-            $usuario = User::findOrFail($id);
+            $usuario = User::find($id);
             $usuario->delete();
             return response()->json([
-                'message'=>'Usuario eliminado con éxito'
+                'message'=>'Usuario eliminado con éxito',
+                'usuario'=>$usuario,
             ],200);
         }catch(\Exception $e){
             throw new \Exception($e->getMessage());
         }
     }
+
 }

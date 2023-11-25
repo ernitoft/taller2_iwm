@@ -5,6 +5,13 @@
             <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                 Iniciar sesión
             </h1>
+
+            <div *ngIf="errorMessages.length > 0" class="error-messages mt-4">
+                <div *ngFor="let errorMessage of errorMessages">
+                    <span class="badge text-bg-danger">{{errorMessage}}</span>
+                </div>
+            </div>
+            
             <form class="space-y-4 md:space-y-6" [formGroup]="formulario" (ngSubmit)="onSubmit()">
                 <div>
                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Usuario</label>

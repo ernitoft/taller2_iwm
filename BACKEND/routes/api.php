@@ -15,16 +15,19 @@ use App\Http\Controllers\UsuarioControllerOut;
 |
 */
 
-
-//UsuarioController
+/**
+ * Rutas para el login
+ */
 Route::post('login',[UsuarioController::class,'login']);
-Route::post('logout',[UsuarioController::class,'logout']);
 
-//Rutas protegidas, OUT
+
+/**
+ * Rutas para el CRUD de usuarios
+ */
 Route::middleware('jwt.verify')->group(function(){
     Route::post('register',[UsuarioControllerOut::class,'store']);
     Route::get('usuarios',[UsuarioControllerOut::class,'index']);
     Route::get('usuarios/{id}',[UsuarioControllerOut::class,'show']);
     Route::patch('update/{id}',[UsuarioControllerOut::class,'update']);
-    Route::delete('usuarios/{id}',[UsuarioControllerOut::class,'delete']);
+    Route::delete('usuarios/{id}',[UsuarioControllerOut::class,'destroy']);
 });

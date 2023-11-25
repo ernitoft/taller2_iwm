@@ -5,6 +5,9 @@ import { Component } from '@angular/core';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
+/**
+ * Componente que contiene la página de inicio.
+ */
 export class HomeComponent {
 
 }

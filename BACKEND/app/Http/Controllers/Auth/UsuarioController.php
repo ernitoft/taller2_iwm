@@ -13,23 +13,26 @@ use Illuminate\Support\Facades\Auth;
 
 class UsuarioController extends Controller
 {
+    /**
+     * Login de usuarios
+     * @param  \Illuminate\Http\Request request es la petición que se hace desde el front
+     */
+    public function login(Request $request){   
+        $messages = makeMessages();     
+  
+            $this->validate($request,[
+                'username'=>'required|string',
+                'password'=>'required|string',
+            ], $messages);
 
-    public function login(LoginRequest $request){
-        $credenciales = $request->only('username','password');
-        $rol = User::where('username',$request->username)->first()->role;
-        $rut = User::where('username',$request->username)->first()->rut;
-        try{
-            
+            $credenciales = $request->only('username','password');
+            $rol = User::where('username',$request->username)->first()->role;
+            $rut = User::where('username',$request->username)->first()->rut;
             if(!$token = JWTAuth::attempt($credenciales)){
                 return response()->json([
                     'message'=>'Credenciales inválidas'
                 ],400);
             }
-        }catch(JWTException $e){
-            return response()->json([
-                'message'=>'No se pudo crear el token'
-            ],500);
-        }
         if ($rol != 1){
             return response()->json([
                 'message'=>'No tiene permisos para acceder'
@@ -40,19 +43,6 @@ class UsuarioController extends Controller
             'token'=>$token,
             'rut'=>$rut,
          ],200);
-    }
-    public function logout(Request $request)
-    {
-        try{
-            JWTAuth::invalidate($request->token);
-            return response()->json([
-                'message'=>'Cierre de sesión exitoso',
-            ],200);
-        }catch(\Exception $e){
-            return response()->json([
-                'message'=>'No se pudo cerrar sesión',
-            ],500);
-        }
     }
 }
 

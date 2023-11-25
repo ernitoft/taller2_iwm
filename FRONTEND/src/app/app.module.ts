@@ -9,6 +9,9 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { VisualizarComponent } from './components/visualizar/visualizar.component';
 import { UsersService } from './services/users.service';
 import { HomeComponent } from './components/home/home.component';
+import { RegistroComponent } from './components/users/registro/registro.component';
+
+
 
 @NgModule({
   declarations: [
@@ -16,14 +19,15 @@ import { HomeComponent } from './components/home/home.component';
     LoginComponent,
     NavbarComponent,
     VisualizarComponent,
-    HomeComponent
+    HomeComponent,
+    RegistroComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [UsersService],
   bootstrap: [AppComponent]
